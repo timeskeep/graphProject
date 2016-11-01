@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.*;
-
+//test
 public class Main extends Application {
     @FXML
     LineChart<Number, Number> graf1;
