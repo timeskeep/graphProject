@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="projectGraf:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/projectGraf_jar</output-path>
+    <root id="archive" name="projectGraf.jar">
+      <element id="module-output" name="projectGraf" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/jfoenix.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
