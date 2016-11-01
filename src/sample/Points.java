@@ -10,6 +10,7 @@ public class Points implements Comparable<Points> {
         this.y=y;
     }
 
+
     @Override
     public int compareTo(Points o) {
         return x > o.x ? 1 : x == o.x ? 0 : -1;
