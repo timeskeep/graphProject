@@ -9,7 +9,10 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Main extends Application {
 
@@ -22,25 +25,34 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample1.fxml"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(root, 640, 480));
+        long unixSeconds = System.currentTimeMillis();
+        Date date = new Date(unixSeconds); // *1000 is to convert seconds to milliseconds
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // the format of your date
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+2")); // give a timezone reference for formating (see comment at the bottom
+        String formattedDate = sdf.format(date);
+        String time = formattedDate.replace(':', '.');
+        float timeF = Float.parseFloat(time);
+        System.out.println(timeF);
 
-                //Исключительное устловие разности длины массива точек
-        double[] ix1 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12,
-                13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+        double[] ix1 = new double[24];
         double[] iy1 = {25.5, 25.3, 25.4, 25.4, 25.4, 25.3,
                 25.3, 25.4, 25.3, 25.5, 25.5, 25.5, 25.4, 25.4,
                 25.4, 25.4, 25.3, 25.3, 25.5, 25.5, 25.6, 25.5,
                 25.5, 25.4};
-        double[] ix2 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12,
-                13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
         double[] iy2 = {28.3, 28.3, 28.3, 28.3, 28.3, 28.2, 28.2,
                 28.3, 28.3, 28.2, 28.1, 28.1, 28.2, 28.2, 28.3,
-                28.3, 28.1, 28.2, 28.3, 28.2, 28.3, 28.2, 28.1, 28.2};
-        double[] ix3 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12,
-                13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
-        double[] iy3 = new double[ix3.length];
+                28.3, 28.1, 28.2, 28.3, 28.2, 28.3, 28.2,
+                28.1, 28.2};
+        double[] iy3 = new double[24];
 
-        for (int i = 0; i < ix3.length; i++) {
+        for (int i = 0; i < 24; i++) {
             iy3[i] = iy1[i] / iy2[i];
+        }
+
+        ix1[0] = 0.0;
+        for (int i = 1; i < 23; i++) {
+            ix1[i] = ix1[i - 1] + 1.0;
+            System.out.println(Double.toString(ix1[i]));
         }
 
                         NumberAxis x = new NumberAxis();
@@ -53,13 +65,13 @@ public class Main extends Application {
                             });
                         }
                         ArrayList<Points> points2 = new ArrayList<Points>();
-                        for (int i = 0; i < ix2.length; i++) {
-                            points2.add(new Points(ix2[i], iy2[i]) {
+        for (int i = 0; i < ix1.length; i++) {
+            points2.add(new Points(ix1[i], iy2[i]) {
                             });
                         }
         ArrayList<Points> points3 = new ArrayList<Points>();
-        for (int i = 0; i < ix3.length; i++) {
-            points3.add(new Points(ix3[i], iy3[i]) {
+        for (int i = 0; i < ix1.length; i++) {
+            points3.add(new Points(ix1[i], iy3[i]) {
             });
         }
 
