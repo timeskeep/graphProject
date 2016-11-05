@@ -1,5 +1,11 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -9,14 +15,38 @@ import java.util.TimeZone;
 
 
 public class Parser {
+    @FXML
+    JFXButton button;
+    @FXML
+    JFXTextField textUSD;
+    @FXML
+    JFXTextField textEUR;
+    @FXML
+    JFXTextField textGold;
 
-    static  String jsonUrl = "http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=EURUSD=X";
+    @FXML
+    public void initialize(){
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    textUSD.setText(readUrl(uniteUrl(currencyUSDEUR,jsonUrl)).substring(11));
+                    textEUR.setText(readUrl(uniteUrl(currencyEURUSD,jsonUrl)).substring(11));
+                    textGold.setText(readUrl(uniteUrl(currencyGOLD,jsonUrl)).substring(8));
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }
+        });
+    }
 
-    static String currencyUSD = "USD";
-    static String currencyEUR = "EUR";
+    static  String jsonUrl = "http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=";
+
+    static String currencyUSDEUR = "USDEUR";
+    static String currencyEURUSD = "EURUSD";
     static String currencyGOLD = "XAU";
-    static double usd;
-    static double eur;
+    static double usdEUR;
+    static double eurUSD;
     static double gold;
 
 
@@ -52,48 +82,50 @@ public class Parser {
         }
     }
 
-
     public static void main(String[] args) throws Exception {
-        System.out.println(readUrl(jsonUrl));
-           /* String jsonUSD = readUrl(uniteUrl(getDate(), currencyUSD,jsonUrl));
-            usd = usdGetter(jsonUSD);
-            System.out.println(usd);
 
-            String jsonEUR = readUrl(uniteUrl(getDate(),currencyEUR,jsonUrl));
-            eur = eurGetter(jsonEUR);
-            System.out.println(eur);
+            String jsonUSD = readUrl(uniteUrl(currencyUSDEUR,jsonUrl));
+            System.out.println();
+            System.out.println(jsonUSD);
+            usdEUR = usdGetter(jsonUSD);
+            System.out.println(usdEUR);
 
-            String jsonGold = readUrl(uniteUrl(getDate(),currencyGOLD,jsonUrl));
+            String jsonEUR = readUrl(uniteUrl(currencyEURUSD,jsonUrl));
+            System.out.println();
+            System.out.println(jsonEUR);
+            eurUSD = eurGetter(jsonEUR);
+            System.out.println(eurUSD);
+
+            String jsonGold = readUrl(uniteUrl(currencyGOLD,jsonUrl));
+            System.out.println();
+            System.out.println(jsonGold);
             gold = goldGetter(jsonGold);
             System.out.println(gold);
 
-            System.out.println(getDate());*/
 
     }
 
-  /*  public static double usdGetter(String jsonUSD){
-        String usdText = jsonUSD.substring(38,47);
-        usd = Double.parseDouble(usdText);
-        return usd;
+    public static double usdGetter(String jsonUSD){
+        String usdText = jsonUSD.substring(11,17);
+        usdEUR = Double.parseDouble(usdText);
+        return usdEUR;
     }
 
     public static double eurGetter(String jsonEUR){
-        String eurText = jsonEUR.substring(33,41);
-        eur = Double.parseDouble(eurText);
-        return eur;
+        String eurText = jsonEUR.substring(11,17);
+        eurUSD = Double.parseDouble(eurText);
+        return eurUSD;
     }
 
     public static double goldGetter(String jsonGold){
-        String goldText = jsonGold.substring(35,44);
-        //System.out.println(goldText);
+        String goldText = jsonGold.substring(8,14);
         gold = Double.parseDouble(goldText);
         return gold;
-    }*/
+    }
 
-    public static String uniteUrl(int date,String currency,String jsonUrl){
-        String sDate = Integer.toString(date);
+    public static String uniteUrl(String currency,String jsonUrl){
 
-        return jsonUrl+"valcode="+currency+"&date="+sDate;
+        return jsonUrl+currency+"=X";
 
     }
 }
